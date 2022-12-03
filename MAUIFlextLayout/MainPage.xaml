@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converter="clr-namespace:MAUIFlextLayout"
+             x:Class="MAUIFlextLayout.MainPage">
+
+     <ContentPage.Resources>
+            <converter:StringToReverseBoolConverter x:Key="IsLableShow" />
+            <converter:StringToViewSizeStringConverter x:Key="ViewSizeConverter" />
+    </ContentPage.Resources>
+
+    <ScrollView Padding="0,0,0,20">
+        <VerticalStackLayout
+            Spacing="15"
+            Padding="20,20"
+            VerticalOptions="Start">
+
+            <Image
+                Source="dotnet_bot.png"
+                SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                HeightRequest="200"
+                HorizontalOptions="Center" />
+
+            <Label Text="Skills : "
+                   FontSize="20"
+                   Margin="5,0,0,0"
+                   FontAttributes="Bold"/>
+
+            <FlexLayout
+                    x:Name="FlexSkillContainer"
+                    Margin="5,-10,5,5"
+                    AlignContent="Start"
+                    AlignItems="Start"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Fill"
+                    Direction="Row"
+                    JustifyContent="Start"
+                    BindableLayout.ItemsSource="{Binding Skills}"
+                    Wrap="Wrap" >
+
+                   <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                             <Frame
+                                Margin="2"
+                                Padding="4"
+                                BackgroundColor="{StaticResource ColorFocused}"
+                                CornerRadius="15">
+                                   <StackLayout
+                                        Margin="5,0,5,0"
+                                        Orientation="Horizontal">
+
+                                            <Label
+                                                x:Name="LabelSkill"
+                                                FontSize="18"
+                                                Text="{Binding .}"
+                                                Margin="5,0,5,0"
+                                                TextColor="{StaticResource ColorWhite}"
+                                                VerticalOptions="Center" />
+
+                                            <Image
+                                                x:Name="ImgCross"
+                                                HeightRequest="24"
+                                                HorizontalOptions="End"
+                                                Source="cross.png"
+                                                VerticalOptions="Center"
+                                                WidthRequest="24">
+
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="OnDeleteSkillClicked" />
+                                                </Image.GestureRecognizers>
+
+                                            </Image>
+
+                                 </StackLayout>
+                             </Frame>
+                        </DataTemplate>
+                   </BindableLayout.ItemTemplate>
+
+             </FlexLayout>
+
+            <FlexLayout Direction="Row" HeightRequest="50">
+
+                <Entry
+                    x:Name="SkillEntry"
+                    Margin="5"
+                    FlexLayout.Basis="{Binding Source={x:Reference SkillEntry}, Path=Text, Converter={StaticResource ViewSizeConverter}}"
+                    FontSize="20"
+                    HeightRequest="50"
+                    VerticalOptions="Fill"
+                    HorizontalOptions="FillAndExpand"
+                    Keyboard="Text"
+                    Placeholder="Add Skill" />
+
+                <Image
+                    x:Name="ImageCheck"
+                    FlexLayout.Basis="10%"
+                    HeightRequest="35"
+                    FlexLayout.AlignSelf="Center"
+                    VerticalOptions="CenterAndExpand"
+                    IsVisible="{Binding Source={x:Reference SkillEntry}, Path=Text, Converter={StaticResource IsLableShow}}"
+                    Source="check.png"
+                    WidthRequest="35">
+
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnAddSkillClicked"/>
+                    </Image.GestureRecognizers>
+                 </Image>
+
+            </FlexLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+
